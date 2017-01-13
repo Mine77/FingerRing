@@ -7,3 +7,12 @@ D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\Finger
 D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\FingerRing\obj\Debug\FingerRing.csproj.GenerateResource.Cache
 D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\FingerRing\obj\Debug\FingerRing.exe
 D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\FingerRing\obj\Debug\FingerRing.pdb
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\bin\Debug\FingerRing.exe.config
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\obj\Debug\FingerRing.exe
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\obj\Debug\FingerRing.pdb
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\bin\Debug\FingerRing.exe
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\bin\Debug\FingerRing.pdb
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\obj\Debug\FingerRing.csprojResolveAssemblyReference.cache
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\obj\Debug\FingerRing.MainForm.resources
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\obj\Debug\FingerRing.Properties.Resources.resources
+D:\Single_Hand_Input\Single_Hand_Input\Single -Hand-Input\Phase2\Software\FingerRing\PC\Serial_Oscilloscope_Dataprocess_C#\FingerRing\obj\Debug\FingerRing.csproj.GenerateResource.Cache

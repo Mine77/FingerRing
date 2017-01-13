@@ -37,12 +37,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.serialPortProx = new System.IO.Ports.SerialPort(this.components);
-            this.txtboxReceive = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblSampleRate = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblSampleReceived = new System.Windows.Forms.Label();
+            this.txtboxReceive_Shock = new System.Windows.Forms.TextBox();
+            this.lblSampleRate_Shock = new System.Windows.Forms.Label();
+            this.lblSampleReceived_Shock = new System.Windows.Forms.Label();
             this.btnScopeControl = new System.Windows.Forms.Button();
+            this.txtboxReceive_Prox = new System.Windows.Forms.TextBox();
+            this.lblSampleRate_Prox = new System.Windows.Forms.Label();
+            this.lblSampleReceived_Prox = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cboShockPort
@@ -65,9 +66,9 @@
             // 
             // btnRefreshPort
             // 
-            this.btnRefreshPort.Location = new System.Drawing.Point(37, 126);
+            this.btnRefreshPort.Location = new System.Drawing.Point(39, 126);
             this.btnRefreshPort.Name = "btnRefreshPort";
-            this.btnRefreshPort.Size = new System.Drawing.Size(83, 35);
+            this.btnRefreshPort.Size = new System.Drawing.Size(81, 35);
             this.btnRefreshPort.TabIndex = 2;
             this.btnRefreshPort.Text = "Refresh\r\nPorts";
             this.btnRefreshPort.UseVisualStyleBackColor = true;
@@ -103,71 +104,82 @@
             this.label2.Text = "Proximity\r\nSensor";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // txtboxReceive
+            // txtboxReceive_Shock
             // 
-            this.txtboxReceive.Location = new System.Drawing.Point(37, 179);
-            this.txtboxReceive.Multiline = true;
-            this.txtboxReceive.Name = "txtboxReceive";
-            this.txtboxReceive.Size = new System.Drawing.Size(260, 188);
-            this.txtboxReceive.TabIndex = 7;
+            this.txtboxReceive_Shock.Location = new System.Drawing.Point(39, 179);
+            this.txtboxReceive_Shock.Multiline = true;
+            this.txtboxReceive_Shock.Name = "txtboxReceive_Shock";
+            this.txtboxReceive_Shock.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtboxReceive_Shock.Size = new System.Drawing.Size(114, 188);
+            this.txtboxReceive_Shock.TabIndex = 7;
             // 
-            // label3
+            // lblSampleRate_Shock
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(68, 388);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Sample Rate:";
+            this.lblSampleRate_Shock.AutoSize = true;
+            this.lblSampleRate_Shock.Location = new System.Drawing.Point(36, 385);
+            this.lblSampleRate_Shock.Name = "lblSampleRate_Shock";
+            this.lblSampleRate_Shock.Size = new System.Drawing.Size(75, 13);
+            this.lblSampleRate_Shock.TabIndex = 9;
+            this.lblSampleRate_Shock.Text = "lblSampleRate";
             // 
-            // lblSampleRate
+            // lblSampleReceived_Shock
             // 
-            this.lblSampleRate.AutoSize = true;
-            this.lblSampleRate.Location = new System.Drawing.Point(160, 388);
-            this.lblSampleRate.Name = "lblSampleRate";
-            this.lblSampleRate.Size = new System.Drawing.Size(75, 13);
-            this.lblSampleRate.TabIndex = 9;
-            this.lblSampleRate.Text = "lblSampleRate";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(59, 405);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(94, 13);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Sample Received:";
-            // 
-            // lblSampleReceived
-            // 
-            this.lblSampleReceived.AutoSize = true;
-            this.lblSampleReceived.Location = new System.Drawing.Point(163, 405);
-            this.lblSampleReceived.Name = "lblSampleReceived";
-            this.lblSampleReceived.Size = new System.Drawing.Size(98, 13);
-            this.lblSampleReceived.TabIndex = 11;
-            this.lblSampleReceived.Text = "lblSampleReceived";
+            this.lblSampleReceived_Shock.AutoSize = true;
+            this.lblSampleReceived_Shock.Location = new System.Drawing.Point(36, 407);
+            this.lblSampleReceived_Shock.Name = "lblSampleReceived_Shock";
+            this.lblSampleReceived_Shock.Size = new System.Drawing.Size(98, 13);
+            this.lblSampleReceived_Shock.TabIndex = 11;
+            this.lblSampleReceived_Shock.Text = "lblSampleReceived";
             // 
             // btnScopeControl
             // 
             this.btnScopeControl.Location = new System.Drawing.Point(215, 126);
             this.btnScopeControl.Name = "btnScopeControl";
-            this.btnScopeControl.Size = new System.Drawing.Size(82, 35);
+            this.btnScopeControl.Size = new System.Drawing.Size(76, 35);
             this.btnScopeControl.TabIndex = 12;
             this.btnScopeControl.Text = "Open Oscilloscope";
             this.btnScopeControl.UseVisualStyleBackColor = true;
             this.btnScopeControl.Click += new System.EventHandler(this.btnScopeControl_Click);
             // 
+            // txtboxReceive_Prox
+            // 
+            this.txtboxReceive_Prox.Location = new System.Drawing.Point(171, 179);
+            this.txtboxReceive_Prox.Multiline = true;
+            this.txtboxReceive_Prox.Name = "txtboxReceive_Prox";
+            this.txtboxReceive_Prox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtboxReceive_Prox.Size = new System.Drawing.Size(120, 188);
+            this.txtboxReceive_Prox.TabIndex = 13;
+            // 
+            // lblSampleRate_Prox
+            // 
+            this.lblSampleRate_Prox.AutoSize = true;
+            this.lblSampleRate_Prox.Location = new System.Drawing.Point(168, 385);
+            this.lblSampleRate_Prox.Name = "lblSampleRate_Prox";
+            this.lblSampleRate_Prox.Size = new System.Drawing.Size(75, 13);
+            this.lblSampleRate_Prox.TabIndex = 14;
+            this.lblSampleRate_Prox.Text = "lblSampleRate";
+            // 
+            // lblSampleReceived_Prox
+            // 
+            this.lblSampleReceived_Prox.AutoSize = true;
+            this.lblSampleReceived_Prox.Location = new System.Drawing.Point(168, 407);
+            this.lblSampleReceived_Prox.Name = "lblSampleReceived_Prox";
+            this.lblSampleReceived_Prox.Size = new System.Drawing.Size(98, 13);
+            this.lblSampleReceived_Prox.TabIndex = 15;
+            this.lblSampleReceived_Prox.Text = "lblSampleReceived";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(326, 434);
+            this.ClientSize = new System.Drawing.Size(326, 438);
+            this.Controls.Add(this.lblSampleReceived_Prox);
+            this.Controls.Add(this.lblSampleRate_Prox);
+            this.Controls.Add(this.txtboxReceive_Prox);
             this.Controls.Add(this.btnScopeControl);
-            this.Controls.Add(this.lblSampleReceived);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.lblSampleRate);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtboxReceive);
+            this.Controls.Add(this.lblSampleReceived_Shock);
+            this.Controls.Add(this.lblSampleRate_Shock);
+            this.Controls.Add(this.txtboxReceive_Shock);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cboProxPort);
@@ -193,12 +205,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.IO.Ports.SerialPort serialPortProx;
-        private System.Windows.Forms.TextBox txtboxReceive;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblSampleRate;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblSampleReceived;
+        private System.Windows.Forms.TextBox txtboxReceive_Shock;
+        private System.Windows.Forms.Label lblSampleRate_Shock;
+        private System.Windows.Forms.Label lblSampleReceived_Shock;
         private System.Windows.Forms.Button btnScopeControl;
+        private System.Windows.Forms.TextBox txtboxReceive_Prox;
+        private System.Windows.Forms.Label lblSampleRate_Prox;
+        private System.Windows.Forms.Label lblSampleReceived_Prox;
     }
 }
 
