@@ -11,11 +11,14 @@ using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using Serial_Oscilloscope;
+using Filter;
 
 namespace FingerRing
 {
     public partial class MainForm : Form
     {
+
+        #region defines
         /// <summary>
         /// Timer to update terminal textbox at fixed interval.
         /// </summary>
@@ -56,6 +59,16 @@ namespace FingerRing
         /// </summary>
         private bool isOscilloscopeOpened = false;
 
+        /// <summary>
+        /// Butterworth Filter used to smooth the proximity sensor data. 
+        /// </summary>
+        FilterButterworth Front_lowpassFilter = new FilterButterworth(20, 475, FilterButterworth.PassType.Lowpass, 20);
+        FilterButterworth Side_lowpassFilter = new FilterButterworth(20, 475, FilterButterworth.PassType.Lowpass, 20);
+
+
+        #endregion
+
+        #region form load and close
         public MainForm()
         {
             InitializeComponent();
@@ -70,11 +83,42 @@ namespace FingerRing
             cboProxPort.Items.AddRange(ports);
             cboProxPort.SelectedIndex = 0;
 
-
             //setup form update timer
             formUpdateTimer.Interval = 50;
             formUpdateTimer.Tick += new EventHandler(formUpdateTimer_Tick);
             formUpdateTimer.Start();
+        }
+       
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (serialPortShock.IsOpen)
+            {
+                serialPortShock.Close();
+            }
+            if (serialPortProx.IsOpen)
+            {
+                serialPortProx.Close();
+            }
+        }
+        #endregion
+
+        #region button click functions
+        private void btnScopeControl_Click(object sender, EventArgs e)
+        {
+            if (isOscilloscopeOpened)
+            {
+                oscilloscope_Shock.HideScope();
+                oscilloscope_Prox.HideScope();
+                btnScopeControl.Text = "Open Oscilloscope";
+                isOscilloscopeOpened = false;
+            }
+            else
+            {
+                oscilloscope_Shock.ShowScope();
+                oscilloscope_Prox.ShowScope();
+                btnScopeControl.Text = "Close Oscilloscope";
+                isOscilloscopeOpened = true;
+            }
         }
 
         private void btnPortControl_Click(object sender, EventArgs e)
@@ -110,18 +154,6 @@ namespace FingerRing
             }
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(serialPortShock.IsOpen)
-            {
-                serialPortShock.Close();
-            }
-            if(serialPortProx.IsOpen)
-            {
-                serialPortProx.Close();
-            }
-        }
-
         private void btnRefreshPort_Click(object sender, EventArgs e)
         {
             cboProxPort.Items.Clear();
@@ -132,7 +164,47 @@ namespace FingerRing
             cboProxPort.Items.AddRange(ports);
             cboProxPort.SelectedIndex = 0;
         }
+        #endregion
 
+        #region form update
+        void formUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            // Print textBoxBuffer to terminal
+            if (txtboxReceive_Shock.Enabled && !textBoxBuffer_Shock.IsEmpty())
+            {
+                txtboxReceive_Shock.AppendText(textBoxBuffer_Shock.Get());
+                if (txtboxReceive_Shock.Text.Length > txtboxReceive_Shock.MaxLength)    // discard first half of textBox when number of characters exceeds length
+                {
+                    txtboxReceive_Shock.Text = txtboxReceive_Shock.Text.Substring(txtboxReceive_Shock.Text.Length / 2, txtboxReceive_Shock.Text.Length - txtboxReceive_Shock.Text.Length / 2);
+                }
+            }
+            else
+            {
+                textBoxBuffer_Shock.Clear();
+            }
+
+            if (txtboxReceive_Prox.Enabled && !textBoxBuffer_Prox.IsEmpty())
+            {
+                txtboxReceive_Prox.AppendText(textBoxBuffer_Prox.Get());
+                if (txtboxReceive_Prox.Text.Length > txtboxReceive_Prox.MaxLength)    // discard first half of textBox when number of characters exceeds length
+                {
+                    txtboxReceive_Prox.Text = txtboxReceive_Prox.Text.Substring(txtboxReceive_Prox.Text.Length / 2, txtboxReceive_Shock.Text.Length - txtboxReceive_Shock.Text.Length / 2);
+                }
+            }
+            else
+            {
+                textBoxBuffer_Prox.Clear();
+            }
+
+            // Update sample counter values
+            lblSampleRate_Shock.Text = "Samples Recieved: " + sampleCounter_Shock.SamplesReceived.ToString();
+            lblSampleReceived_Shock.Text = "Sample Rate: " + sampleCounter_Shock.SampleRate.ToString();
+            lblSampleRate_Prox.Text = "Samples Recieved: " + sampleCounter_Prox.SamplesReceived.ToString();
+            lblSampleReceived_Prox.Text = "Sample Rate: " + sampleCounter_Prox.SampleRate.ToString();
+        }
+        #endregion
+
+        #region data receiving
         private void serialPort_DataReceived_Shock(object sender, SerialDataReceivedEventArgs e)
         {
             //try
@@ -254,11 +326,7 @@ namespace FingerRing
                         // Update oscilloscopes if channel values changed
                         if (channelIndex > 0)
                         {
-                            //This will be where I process the data {   by MIne77
-                            //Add the data to buf
-                            //DataProcess(channels);
-
-                            // } This will be where I process the data   by MIne77
+                            channels_Prox = filter4Prox(channels_Prox);
                             oscilloscope_Prox.AddScopeData(channels_Prox[0], channels_Prox[1], channels_Prox[2]);
                             sampleCounter_Prox.Increment();
                         }
@@ -274,59 +342,17 @@ namespace FingerRing
             }
             //catch { }
         }
+        #endregion
 
-        void formUpdateTimer_Tick(object sender, EventArgs e)
+        #region data process and classification
+        private double[] filter4Prox(double[] data)
         {
-            // Print textBoxBuffer to terminal
-            if (txtboxReceive_Shock.Enabled && !textBoxBuffer_Shock.IsEmpty())
-            {
-                txtboxReceive_Shock.AppendText(textBoxBuffer_Shock.Get());
-                if (txtboxReceive_Shock.Text.Length > txtboxReceive_Shock.MaxLength)    // discard first half of textBox when number of characters exceeds length
-                {
-                    txtboxReceive_Shock.Text = txtboxReceive_Shock.Text.Substring(txtboxReceive_Shock.Text.Length / 2, txtboxReceive_Shock.Text.Length - txtboxReceive_Shock.Text.Length / 2);
-                }
-            }
-            else
-            {
-                textBoxBuffer_Shock.Clear();
-            }
-
-            if (txtboxReceive_Prox.Enabled && !textBoxBuffer_Prox.IsEmpty())
-            {
-                txtboxReceive_Prox.AppendText(textBoxBuffer_Prox.Get());
-                if (txtboxReceive_Prox.Text.Length > txtboxReceive_Prox.MaxLength)    // discard first half of textBox when number of characters exceeds length
-                {
-                    txtboxReceive_Prox.Text = txtboxReceive_Prox.Text.Substring(txtboxReceive_Prox.Text.Length / 2, txtboxReceive_Shock.Text.Length - txtboxReceive_Shock.Text.Length / 2);
-                }
-            }
-            else
-            {
-                textBoxBuffer_Prox.Clear();
-            }
-            
-            // Update sample counter values
-            lblSampleRate_Shock.Text = "Samples Recieved: " + sampleCounter_Shock.SamplesReceived.ToString();
-            lblSampleReceived_Shock.Text = "Sample Rate: " + sampleCounter_Shock.SampleRate.ToString();
-            lblSampleRate_Prox.Text = "Samples Recieved: " + sampleCounter_Prox.SamplesReceived.ToString();
-            lblSampleReceived_Prox.Text = "Sample Rate: " + sampleCounter_Prox.SampleRate.ToString();
+            Front_lowpassFilter.Update(data[0]);
+            Side_lowpassFilter.Update(data[1]);
+            data[0] = Front_lowpassFilter.Value;
+            data[1] = Side_lowpassFilter.Value;
+            return data;
         }
-
-        private void btnScopeControl_Click(object sender, EventArgs e)
-        {
-            if(isOscilloscopeOpened)
-            {
-                oscilloscope_Shock.HideScope();
-                oscilloscope_Prox.HideScope();
-                btnScopeControl.Text = "Open Oscilloscope";
-                isOscilloscopeOpened = false;
-            }
-            else
-            {
-                oscilloscope_Shock.ShowScope();
-                oscilloscope_Prox.ShowScope();
-                btnScopeControl.Text = "Close Oscilloscope";
-                isOscilloscopeOpened = true;
-            }
-        }
+        #endregion
     }
 }
