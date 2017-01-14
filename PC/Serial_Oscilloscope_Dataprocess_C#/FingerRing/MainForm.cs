@@ -42,7 +42,8 @@ namespace FingerRing
         /// <summary>
         /// Oscilloscope for channels 1, 2 and 3.
         /// </summary>
-        private Oscilloscope oscilloscope = Oscilloscope.CreateScope("Oscilloscope/Oscilloscope_settings.ini", "");
+        private Oscilloscope oscilloscope_Shock = Oscilloscope.CreateScope("Oscilloscope/Oscilloscope_settings.ini", "");
+        private Oscilloscope oscilloscope_Prox = Oscilloscope.CreateScope("Oscilloscope/Oscilloscope_settings.ini", "");
 
         /// <summary>
         /// Sample counter to calculate performance statics.
@@ -69,8 +70,6 @@ namespace FingerRing
             cboProxPort.Items.AddRange(ports);
             cboProxPort.SelectedIndex = 0;
 
-            // Set oscilloscope captions
-            oscilloscope.Caption = "Channels 1, 2 and 3";
 
             //setup form update timer
             formUpdateTimer.Interval = 50;
@@ -189,7 +188,7 @@ namespace FingerRing
                             //DataProcess(channels);
 
                             // } This will be where I process the data   by MIne77
-                            //oscilloscope.AddScopeData(channels[0], channels[1], channels[2]);
+                            oscilloscope_Shock.AddScopeData(channels_Shock[0], channels_Shock[1], channels_Shock[2]);
                             sampleCounter_Shock.Increment();
                         }
 
@@ -260,7 +259,7 @@ namespace FingerRing
                             //DataProcess(channels);
 
                             // } This will be where I process the data   by MIne77
-                            //oscilloscope.AddScopeData(channels[0], channels[1], channels[2]);
+                            oscilloscope_Prox.AddScopeData(channels_Prox[0], channels_Prox[1], channels_Prox[2]);
                             sampleCounter_Prox.Increment();
                         }
 
@@ -316,13 +315,15 @@ namespace FingerRing
         {
             if(isOscilloscopeOpened)
             {
-                oscilloscope.HideScope();
+                oscilloscope_Shock.HideScope();
+                oscilloscope_Prox.HideScope();
                 btnScopeControl.Text = "Open Oscilloscope";
                 isOscilloscopeOpened = false;
             }
             else
             {
-                oscilloscope.ShowScope();
+                oscilloscope_Shock.ShowScope();
+                oscilloscope_Prox.ShowScope();
                 btnScopeControl.Text = "Close Oscilloscope";
                 isOscilloscopeOpened = true;
             }
